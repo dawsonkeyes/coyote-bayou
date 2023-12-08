@@ -10,7 +10,7 @@
 		"linelaser" = 0, \
 		"energy" = 0, \
 		"bomb" = 0, \
-		"bio" = 0, \w
+		"bio" = 0, \
 		"rad" = 0, \
 		"fire" = 0, \
 		"acid" = 0, \
