@@ -1,17 +1,18 @@
 /mob/living/simple_animal/hostile/megafauna/captainarlem
 	name = "Captain Arlem"
 	desc = "A grotesque, Enclave-manufactured and Enclave-loyal prime super mutant given cybernetic augmentations, unique hardened power armor, and an arm-mounted plasma repeater, alongside drug cocktails administered by his suit. Your ride's over mutie, time to die."
-	health = 3000
-	maxHealth = 3000
+	health = 1000
+	maxHealth = 1000 // not as high as contemporary megafauna, but he's armored to fucking hell and back
 	icon_state = "arlem"
 	icon_living = "arlem"
 	icon_dead = "arlem"
 	icon = 'icons/fallout/mobs/bigmob.dmi'
-	friendly_verb_continuous = "mutters 'Enclave huh? Get out of here. This is a restricted area by order of President Eden.'"
-	friendly_verb_simple = "mutters 'Enclave huh? Get out of here. This is a restricted area by order of President Eden.'"
+	friendly_verb_continuous = "glances aside, mumbling."
+	friendly_verb_simple = "glances aside, mumbling."
 	attack_verb_continuous = "eviscerates"
 	attack_verb_simple = "eviscerate"
 	attack_sound = 'sound/magic/demon_attack1.ogg'
+	mob_armor = ARMOR_VALUE_ARLEM
 	weather_immunities = list("snow")
 	speak_emote = list("shouts")
 	melee_damage_lower = 40
@@ -32,7 +33,7 @@
 	movement_type = GROUND
 	var/charging = 0
 	blood_volume = BLOOD_VOLUME_NORMAL
-	deathmessage = span_colossus("chokes on their own blood, gurgling out 'You're coming with me, mutie' as they activate their self destruct!")
+	deathmessage = span_colossus("chokes on their own blood, tapping at their wrist as their suit begins a countdown!")
 	deathsound = 'sound/effects/gravhit.ogg'
 	del_on_death = FALSE
 	loot = list(/obj/item/keycard/library)
@@ -50,25 +51,58 @@
 	ranged_cooldown = world.time + ranged_cooldown_time
 
 	if(prob(15))
-		visible_message("<span class='colossus'>\"<b>AH, THE SUGAR SWEET KISS OF HEAVY ARTILLERY!</b>\"</span>")
+		var/static/list/blast_messages = list(
+											"Die!",
+											"Duck, motherfucker!",
+											"Eat plasma!",
+											"Burn!",
+											"Kiss the floor!",
+											"This'll hurt!",
+		)
+		say(message = pick(blast_messages))
 		ranged_cooldown = world.time + 10
 		blast()
 	else if(prob(3+anger_modifier/2))
-		visible_message("<span class='colossus'>\"<b>I HAVE SOME FRIENDS I'D LIKE YOU TO MEET!</b>\"</span>")
+		var/static/list/eyebot_messages = list(
+											"I've got some friends for you to meet!",
+											"Say hello!",
+											"I use these things for trainig!",
+											"How many places can you aim at once?",
+											"Check this shit!",
+											"Surprise, motherfucker!",
+		)
+		say(message = pick(eyebot_messages))
 		eyebots()
 	else
 		if(health > maxHealth/2 && !client)
+			var/static/list/charge_messages = list(
+											"C'mere!",
+											"I promise I fuckin' bite!",
+											"Say hello, motherfucker!",
+											"I'm feelin' ROMANTICAL.",
+											"Give me a hug!",
+											"GET OVER HERE!",
+			)
+			say(message = pick(charge_messages))
 			INVOKE_ASYNC(src, .proc/charge)
-			visible_message("<span class='colossus'>\"<b> FOR THE ENCLAVE!</b>\"</span>")
+		say(message = pick(blast_messages))
 		else
+			var/static/list/triple_charge_messages = list(
+											"For the Enclave!",
+											"Plain, dead, simple!",
+											"Dodge this!",
+											"I'll show you fisticuffs!",
+											"You're ride's over, mutie!",
+											"Time to die!",
+			)
+			say(message = pick(triple_charge_messages))
 			INVOKE_ASYNC(src, .proc/triple_charge)
-			visible_message("<span class='colossus'>\"<b>YOUR RIDE IS OVER MUTIE, TIME TO DIE!</b>\"</span>")
 			
 /mob/living/simple_animal/hostile/megafauna/captainarlem/Initialize()
 	. = ..()
 	for(var/mob/living/simple_animal/hostile/megafauna/captainarlem/B in GLOB.mob_list)
 		if(B != src)
-			return INITIALIZE_HINT_QDEL //There can be only one
+			return INITIALIZE_HINT_QDEL // There can be only one
 
 mob/living/simple_animal/hostile/megafauna/captainarlem/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect)
 	if(charging)
@@ -167,9 +201,9 @@ mob/living/simple_animal/hostile/megafauna/captainarlem/do_attack_animation(atom
 		fire_plasmacaster(target_turf, angle_to_target + i)
 
 /mob/living/simple_animal/hostile/megafauna/captainarlem/proc/eyebots()
-	visible_message(span_danger("[src] presses a button on their wrist, activating some of the eyebots!"))
+	visible_message(span_danger("[src] presses a button on their wrist, powering up eyebots!"))
 	for(var/obj/effect/decal/remains/deadeyebot/H in range(src, 10))
-		if(prob(40))
+		if(prob(75))
 			new /mob/living/simple_animal/hostile/eyebot(H.loc)
 	
 /mob/living/simple_animal/hostile/megafauna/captainarlem/proc/self_destruct()
