@@ -10,7 +10,7 @@
 		"linelaser" = 0, \
 		"energy" = 0, \
 		"bomb" = 0, \
-		"bio" = 0, \
+		"bio" = 0, \w
 		"rad" = 0, \
 		"fire" = 0, \
 		"acid" = 0, \
@@ -622,6 +622,23 @@
 		"wound" = 0, \
 		"damage_threshold" = 8)
 
+/* Captain Arlem
+ * Nearly indestructible
+ * Good fucking luck
+ * You're going to need it
+ * * * * * * * * * * * */
+#define ARMOR_VALUE_ARLEM list(\
+		"melee" = 85, \
+		"bullet" = 85, \
+		"laser" = 85, \
+		"energy" = 85, \
+		"bomb" = 100, \
+		"bio" = 100, \
+		"rad" = 100, \
+		"fire" = 100, \
+		"acid" = 100, \
+		"wound" = 100, \
+		"damage_threshold" = 10)
 
 /* Ant
  * Good melee / bullet resist
