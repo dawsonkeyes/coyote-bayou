@@ -25,7 +25,7 @@
 	rapid_melee = 1
 	melee_queue_distance = 20 // as far as possible really, need this because of charging
 	ranged = 1
-	pixel_x = -16
+	pixel_x = -3
 	waddle_amount = 10
 	waddle_up_time = 1
 	waddle_side_time = 6
